@@ -17,7 +17,7 @@ defmodule ApplicantTracking.ApplicantsTest do
 
     test "get_applicant!/1 returns the applicant with given id" do
       applicant = applicant_fixture()
-      assert Applicants.get_applicant!(applicant.id) == applicant
+      assert Applicants.get_applicant_with_comments!(applicant.id) == applicant
     end
 
     test "create_applicant/1 with valid data creates a applicant" do
@@ -50,7 +50,7 @@ defmodule ApplicantTracking.ApplicantsTest do
     test "update_applicant/2 with invalid data returns error changeset" do
       applicant = applicant_fixture()
       assert {:error, %Ecto.Changeset{}} = Applicants.update_applicant(applicant, @invalid_attrs)
-      assert applicant == Applicants.get_applicant!(applicant.id)
+      assert applicant == Applicants.get_applicant_with_comments!(applicant.id)
     end
 
     test "move_applicant_to_next_state/0 updates the applicant" do
@@ -72,45 +72,11 @@ defmodule ApplicantTracking.ApplicantsTest do
 
     @invalid_attrs %{content: nil}
 
-    test "list_comments/0 returns all comments" do
-      comment = comment_fixture()
-      assert Applicants.list_comments() == [comment]
-    end
-
-    test "get_comment!/1 returns the comment with given id" do
-      comment = comment_fixture()
-      assert Applicants.get_comment!(comment.id) == comment
-    end
-
     test "create_comment/1 with valid data creates a comment" do
       valid_attrs = %{content: "some content"}
 
       assert {:ok, %Comment{} = comment} = Applicants.create_comment(valid_attrs)
       assert comment.content == "some content"
-    end
-
-    test "create_comment/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Applicants.create_comment(@invalid_attrs)
-    end
-
-    test "update_comment/2 with valid data updates the comment" do
-      comment = comment_fixture()
-      update_attrs = %{content: "some updated content"}
-
-      assert {:ok, %Comment{} = comment} = Applicants.update_comment(comment, update_attrs)
-      assert comment.content == "some updated content"
-    end
-
-    test "update_comment/2 with invalid data returns error changeset" do
-      comment = comment_fixture()
-      assert {:error, %Ecto.Changeset{}} = Applicants.update_comment(comment, @invalid_attrs)
-      assert comment == Applicants.get_comment!(comment.id)
-    end
-
-    test "delete_comment/1 deletes the comment" do
-      comment = comment_fixture()
-      assert {:ok, %Comment{}} = Applicants.delete_comment(comment)
-      assert_raise Ecto.NoResultsError, fn -> Applicants.get_comment!(comment.id) end
     end
 
     test "change_comment/1 returns a comment changeset" do

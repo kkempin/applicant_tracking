@@ -12,12 +12,13 @@ defmodule ApplicantTracking.Applicants.Applicant do
     timestamps()
   end
 
-  @allowed_states ~w(Applied Interviewing Hired Passed)
+  @allowed_states ~w(Applied Interviewing Passed Hired)
 
   @doc false
   def changeset(applicant, attrs) do
     applicant
     |> cast(attrs, [:name, :email])
+    |> cast_assoc(:comments)
     |> validate_required([:name, :email])
     |> validate_format(:email, email_regexp())
   end

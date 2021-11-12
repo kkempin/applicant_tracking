@@ -13,6 +13,5 @@ defmodule ApplicantTracking.Applicants.Comment do
   def changeset(comment, attrs) do
     comment
     |> cast(attrs, [:content])
-    |> validate_required([:content])
   end
 end

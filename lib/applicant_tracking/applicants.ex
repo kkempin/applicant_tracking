@@ -33,7 +33,14 @@ defmodule ApplicantTracking.Applicants do
 
   """
   def list_applicants_grouped_by_state() do
-    Enum.group_by(list_applicants(), & &1.state)
+    applicants = Enum.group_by(list_applicants(), & &1.state)
+
+    Applicant.allowed_states()
+    |> Enum.map(fn state ->
+      if applicants[state] do
+        {state, applicants[state]}
+      end
+    end)
   end
 
   @doc """
@@ -51,6 +58,22 @@ defmodule ApplicantTracking.Applicants do
 
   """
   def get_applicant!(id), do: Repo.get!(Applicant, id)
+
+  @doc """
+  Gets a single applicant with comments preloaded.
+
+  Raises `Ecto.NoResultsError` if the Applicant does not exist.
+
+  ## Examples
+
+      iex> get_applicant_with_comments!(123)
+      %Applicant{}
+
+      iex> get_applicant_with_comments!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_applicant_with_comments!(id), do: Repo.get!(Applicant, id) |> Repo.preload(:comments)
 
   @doc """
   Creates a applicant.
@@ -139,5 +162,18 @@ defmodule ApplicantTracking.Applicants do
     %Comment{}
     |> Comment.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking comment changes.
+
+  ## Examples
+
+      iex> change_comment(comment)
+      %Ecto.Changeset{data: %Comment{}}
+
+  """
+  def change_comment(%Comment{} = comment, attrs \\ %{}) do
+    Comment.changeset(comment, attrs)
   end
 end

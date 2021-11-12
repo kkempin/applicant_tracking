@@ -16,7 +16,7 @@ defmodule ApplicantTracking.ApplicantsFixtures do
       })
       |> ApplicantTracking.Applicants.create_applicant()
 
-    applicant
+    ApplicantTracking.Applicants.get_applicant_with_comments!(applicant.id)
   end
 
   @doc """
