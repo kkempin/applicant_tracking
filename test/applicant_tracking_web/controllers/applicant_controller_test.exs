@@ -38,7 +38,7 @@ defmodule ApplicantTrackingWeb.ApplicantControllerTest do
       assert redirected_to(conn) == Routes.applicant_path(conn, :show, id)
 
       conn = get(conn, Routes.applicant_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Applicant"
+      assert html_response(conn, 200) =~ "Listing Applicant"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

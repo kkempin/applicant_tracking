@@ -6,7 +6,7 @@ defmodule ApplicantTrackingWeb.ApplicantController do
 
   def index(conn, _params) do
     grouped_applicants = Applicants.list_applicants_grouped_by_state()
-    render(conn, "index.html", applicants: grouped_applicants)
+    render(conn, "index.html", applicants: grouped_applicants, applicant: nil)
   end
 
   def new(conn, _params) do
@@ -27,8 +27,10 @@ defmodule ApplicantTrackingWeb.ApplicantController do
   end
 
   def show(conn, %{"id" => id}) do
-    applicant = Applicants.get_applicant!(id)
-    render(conn, "show.html", applicant: applicant)
+    with grouped_applicants <- Applicants.list_applicants_grouped_by_state(),
+         applicant <- Applicants.get_applicant!(id) do
+      render(conn, "index.html", applicants: grouped_applicants, applicant: applicant)
+    end
   end
 
   def edit(conn, %{"id" => id}) do
