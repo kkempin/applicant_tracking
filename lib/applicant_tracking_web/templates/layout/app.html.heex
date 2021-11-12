@@ -1,5 +1,8 @@
-<main class="container">
+<main>
   <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
   <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-  <%= @inner_content %>
+  <div class="container mx-auto px-10">
+    <div class="pt-8"><h1 class="text-lg font-medium">Applicant Tracking</h1></div>
+    <%= @inner_content %>
+  </div>
 </main>

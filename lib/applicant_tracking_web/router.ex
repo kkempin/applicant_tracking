@@ -17,7 +17,10 @@ defmodule ApplicantTrackingWeb.Router do
   scope "/", ApplicantTrackingWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", ApplicantController, :index
+
+    resources "/applicants", ApplicantController
+    get("/applicants/:id/next_state", ApplicantController, :move_to_next_state)
   end
 
   # Other scopes may use custom stacks.

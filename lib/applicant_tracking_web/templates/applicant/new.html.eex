@@ -1,0 +1,1 @@
+<%= render "form.html", Map.put(assigns, :action, Routes.applicant_path(@conn, :create)) |> Map.put(:title, gettext("New %{name}", name: "Applicant")) %>
