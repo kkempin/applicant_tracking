@@ -72,6 +72,10 @@ defmodule ApplicantTrackingWeb.ApplicantController do
   def move_to_next_state(conn, %{"id" => id}) do
     with applicant <- Applicants.get_applicant!(id),
          {:ok, applicant} <- Applicants.move_applicant_to_next_state(applicant) do
+      applicant.email
+      |> ApplicantTracking.UserEmail.state_changed(applicant.name, applicant.state)
+      |> ApplicantTracking.Mailer.deliver()
+
       conn
       |> put_flash(:info, "Applicant successfully moved to state #{applicant.state}.")
       |> redirect(to: Routes.applicant_path(conn, :index))
