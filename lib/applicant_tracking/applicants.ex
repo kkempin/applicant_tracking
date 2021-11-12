@@ -6,7 +6,7 @@ defmodule ApplicantTracking.Applicants do
   import Ecto.Query, warn: false
   alias ApplicantTracking.Repo
 
-  alias ApplicantTracking.Applicants.Applicant
+  alias ApplicantTracking.Applicants.{Applicant, Comment}
 
   @doc """
   Returns the list of applicants.
@@ -18,7 +18,9 @@ defmodule ApplicantTracking.Applicants do
 
   """
   def list_applicants() do
-    Repo.all(Applicant)
+    Applicant
+    |> Repo.all()
+    |> Repo.preload(:comments)
   end
 
   @doc """
@@ -119,5 +121,23 @@ defmodule ApplicantTracking.Applicants do
   """
   def change_applicant(%Applicant{} = applicant, attrs \\ %{}) do
     Applicant.changeset(applicant, attrs)
+  end
+
+  @doc """
+  Creates a comment.
+
+  ## Examples
+
+      iex> create_comment(%{field: value})
+      {:ok, %Comment{}}
+
+      iex> create_comment(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_comment(attrs \\ %{}) do
+    %Comment{}
+    |> Comment.changeset(attrs)
+    |> Repo.insert()
   end
 end

@@ -7,6 +7,8 @@ defmodule ApplicantTracking.Applicants.Applicant do
     field :name, :string
     field :state, :string, default: "Applied"
 
+    has_many :comments, ApplicantTracking.Applicants.Comment
+
     timestamps()
   end
 
