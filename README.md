@@ -1,6 +1,6 @@
 # ApplicantTracking
 
-![ApplicantTracking](https://github.com/kkempin/applicant_tracking/blob/assets/applicants.png)
+![ApplicantTracking](https://github.com/kkempin/applicant_tracking/blob/master/assets/applicants.png)
 
 To start your Phoenix server:
 
